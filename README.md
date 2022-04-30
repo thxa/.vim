@@ -7,6 +7,15 @@
 2. Enter to the ~/.vim
 3. run this code <code>ln .vimrc ~/.vimrc<code>
 
+## To install pluggen
+Enter on vim this command :PlugInstall
+
+
+
+
+
+
+
 
 # Resoruces 
 [vimrc configuartion guide customize ](https://www.freecodecamp.org/news/vimrc-configuration-guide-customize-your-vim-editor/)
