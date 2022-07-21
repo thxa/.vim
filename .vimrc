@@ -1,3 +1,6 @@
+
+runtime! java.vim
+
 " Disable compatibility with vi which can cause unexpected issues.
 set nocompatible
 
@@ -10,13 +13,13 @@ filetype plugin on
 " Load an indent file for the detected file type.
 filetype indent on
 
-
 " Turn syntax highlighting on.
 syntax on
 
-
 " Add numbers to each line on the left-hand side.
 set number
+
+set relativenumber
 
 " Highlight cursor line underneath the cursor horizontally.
 set cursorline
@@ -67,8 +70,6 @@ set hlsearch
 " Set the commands to save in history default number is 20.
 set history=1000
 
-
-
 " Enable auto completion menu after pressing TAB.
 set wildmenu
 
@@ -79,7 +80,12 @@ set wildmode=list:longest
 " Wildmenu will ignore files with these extensions.
 set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
 
+" Change theam to molokai theam
 colorscheme molokai
+
+" Change background to alpha 0 
+hi Normal guifg=#44cc44 guibg=NONE ctermbg=none
+
 "run NERDTree
 
 " short cuts of floding zo zc zR zM
@@ -93,16 +99,16 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'preservim/nerdtree'
 
-
+  Plug 'vim-airline/vim-airline'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
 " }}}}}}
 
-
 " MAPPINGS --------------------------------------------------------------- {{{
 
 " Set the backslash as the leader key.
-" let mapleader = \"\"
+let mapleader = " "
 
 " Press \\ to jump back to the last cursor position.
 nnoremap <leader>\ ``
@@ -119,7 +125,7 @@ nnoremap <silent> <leader>p :%w !lp<CR>
 
 
 " Press the space bar to type the : character in command mode.
-nnoremap <space> :
+" nnoremap <space> :
 
 " Pressing the letter o will open a new line below the current one.
 " Exit insert mode after creating a new line above or below the current line.
@@ -139,7 +145,8 @@ nnoremap Y y$
 " <CR> (carriage return) is like pressing the enter key.
 " !clear runs the external clear screen command.
 " !python3 % executes the current file with Python.
-nnoremap <f5> :w <CR>:!clear <CR>:!python3 % <CR>
+nnoremap <f5> :w <CR>:!clear <CR>
+nnoremap <f10> :w <CR>:!clear <CR>:!java % < in <CR>
 
 " You can split the window in Vim by typing :split or :vsplit.
 " Navigate the split view easier by pressing CTRL+j, CTRL+k, CTRL+h, or CTRL+l.
@@ -167,8 +174,7 @@ nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
-" }}}
-
+ " }}}
 
 " VIMSCRIPT -------------------------------------------------------------- {{{
 
@@ -183,7 +189,10 @@ augroup END
 autocmd Filetype html setlocal tabstop=2 shiftwidth=2 expandtab
 
 " If the current file type is py, set indentation to 4 spacses.
-autocmd FIletype py   setlocal tabstop=4 shifwidth=4 expandtab
+autocmd FIletype py   setlocal tabstop=4 shiftwidth=4 expandtab
+
+"" This command does '!sudo make install' after save the file if the file has name config.h or config.def.h
+autocmd BufWritePost config.h,config.def.h !sudo make install
 
 " If Vim version is equal to or greater than 7.3 enable undofile.
 " This allows you to undo changes to a file even after saving it.
@@ -241,11 +250,15 @@ if has('gui_running')
 
 endif
 
+
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'default'
+
 " }}}
 
-
-
-" STATUS LINE ------------------------------------------------------------ {{{
+" STAiTUS LINE ------------------------------------------------------------ {{{
 
 " %F – Display the full path of the current file.
 
